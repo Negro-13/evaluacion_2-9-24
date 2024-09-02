@@ -2,11 +2,22 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-
+  const [consj, setConsej] = useState([])
   const [term, setTerm] = useState("")
-
+  const [bConsj, setBConsj] = useState([])
+  
   const handleTermChange = (event) => setTerm(event.target.value);
 
+  const getConsj = () => {
+    fetch('https://api.adviceslip.com/advice')
+    .then(response => response.text())
+    .then((data) => setConsej(data));
+  }
+  const getBConsj = () => {
+    fetch('https://api.adviceslip.com/advice/search/${term}')
+    .then(response => response.json())
+    .then((data) => setBConsj(data));
+  }
   return (
     <main>
 
@@ -15,16 +26,16 @@ function App() {
 
       <div>
         <h2>Obtener un consejo aleatorio</h2>
-        <button>Obtener</button>
-        <p className="result-box"></p>
+        <button onClick={getConsj}>Obtener</button>
+        <p className="result-box">{consj}</p>
       </div>
 
       <div>
         <h2>Buscar un consejo</h2>
         <input type="text" onChange={handleTermChange} />
-        <button>Enviar</button>
+        <button onClick={getBConsj}>Enviar</button>
         <h3>Resultados de búsqueda:</h3>
-        <p className="result-box"></p>
+        <p className="result-box">{bConsj}</p>
       </div>
 
     </main>
