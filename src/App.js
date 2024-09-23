@@ -10,13 +10,13 @@ function App() {
 
   const getConsj = () => {
     fetch('https://api.adviceslip.com/advice')
-    .then(response => response.text())
-    .then((data) => setConsej(data));
+    .then(response => response.json())
+    .then((data) => setConsej(data.slip.advice));
   }
   const getBConsj = () => {
-    fetch('https://api.adviceslip.com/advice/search/${term}')
+    fetch(`https://api.adviceslip.com/advice/search/${term}`)
     .then(response => response.json())
-    .then((data) => setBConsj(data));
+    .then((data) => setBConsj(data.slips[0].advice));
   }
   return (
     <main>
